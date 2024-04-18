@@ -1,7 +1,6 @@
 import uvicorn
 from fastapi import FastAPI
 from starlette.staticfiles import StaticFiles
-
 from src.posts.router import main_router
 
 app = FastAPI()
