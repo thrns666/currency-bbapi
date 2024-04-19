@@ -17,7 +17,7 @@ async def get_root(request: Request):
 
 @main_router.get('/index')
 async def index(request: Request):
-    # currency_data_json = get_currency()
+    currency_data_json = get_currency()
     return templates.TemplateResponse(request=request, name='index.html', context={}, status_code=200)
 
 

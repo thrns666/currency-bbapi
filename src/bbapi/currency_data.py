@@ -33,43 +33,36 @@ json_data = [
     ]
 
 
-def separate_filial(data_json: list, a: bool = True) -> dict:
+def separate_filial(data_json: list, flag: bool = True) -> dict:
 
-    cur_in = {}
-    cur_out = {}
-    service_info = {}
     result = {}
 
     for data in data_json:
-        a = True
+        flag = True
         cur_in = {}
         cur_out = {}
         service_info = {}
-        result = {}
         for name, cost in data.items():
-            if name != 'filial_id' and a:
+            if name != 'filial_id' and flag:
                 if name.split('_')[-1] == 'in':
                     cur_in[f'{name}'] = cost
                 elif name.split('_')[-1] == 'out':
                     cur_out[f'{name}'] = cost
             elif name == 'filial_id':
-                a = False
-            elif not a:
+                flag = False
+            elif not flag:
                 service_info[name] = cost
 
-        result[data['filial_id'] + ' ' + data['name']] = {
+        result[data['filial_id'] + ': ' + data['name']] = {
             'in': cur_in,
             'out': cur_out,
             'info': service_info
         }
+
     return result
 
 
-a = separate_filial(json_data)
-print(a)
-
-
-async def get_currency():
+async def get_currency() -> separate_filial:
     # BelaBank api url here
     url = ''  # 'https://belarusbank.by/api/kursExchange'
 
