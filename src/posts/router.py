@@ -2,8 +2,7 @@ from fastapi import APIRouter, Form
 from starlette.requests import Request
 from fastapi.templating import Jinja2Templates
 from typing_extensions import Annotated
-
-from src.bbapi.currency_data import get_currency
+from src.bbapi.currency_data import get_currency, json_data, separate_filial
 
 main_router = APIRouter()
 
@@ -17,8 +16,11 @@ async def get_root(request: Request):
 
 @main_router.get('/index')
 async def index(request: Request):
-    currency_data_json = get_currency()
-    return templates.TemplateResponse(request=request, name='index.html', context={}, status_code=200)
+    # currency_data_json = get_currency()
+    currency_data_json = separate_filial(json_data)
+    return templates.TemplateResponse(
+        request=request, name='index.html', context={'bb_api_data': currency_data_json}, status_code=200
+    )
 
 
 @main_router.post('/index')
@@ -33,7 +35,7 @@ async def take_data(
     print(office, currency_in, currency_out, cash_in, cash_out)
 
     sum = int(cash_in) + int(cash_out)
-    print("total = ", sum)
+    print("total =", sum)
     context = {
         'total': sum
     }

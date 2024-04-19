@@ -22,10 +22,22 @@
 <!--<div class="dropdown-menu">-->
   <form class="px-4 py-3">
     <div class="mb-3">
-      <label for="offices">Choose city of bank office:</label>
-        <select name="office" id="office">
-<!--            for i in office list -->
-          <option value = "Minsk">Minsk</option>
+      <label for="cities">Choose city of bank office:</label>
+
+        <select name="city" id="city">
+            {% for a, b in bb_api_data.items() %}
+            <option value="1">{{ b['info']['name'] }}</option>
+            {% endfor %}
+
+        </select>
+    </div>
+    <div class="mb-3">
+      <label for="offices">Choose bank office:</label>
+
+        <select name="filial_id" id="id">
+            {% for a, b in bb_api_data.items() %}
+            <option value="1">{{ b['info']['filials_text'] }}</option>
+            {% endfor %}
 
         </select>
     </div>
@@ -34,9 +46,13 @@
         <p></p>
       <label for="currencies">Choose a currency:</label>
         <select name="currency_in" id="in-currency">
-<!--            for i in office list -->
-          <option value = "USD">USD</option>
-
+          {% for a, b in bb_api_data.items() %}
+            {% for d, v in b.items() %}
+               {% for f, c in v.items() %}
+                   <option value="0">{{ f }}</option>
+               {% endfor %}
+            {% endfor %}
+          {% endfor %}
         </select>
 
         <input type="text" class="form-control" name="cash_in" placeholder="999.99">
@@ -47,14 +63,14 @@
         <p></p>
       <label for="currencies">Choose a currency:</label>
         <select name="currency_out" id="to-currency">
-<!--            for i in office list -->
-          <option value = "JPY">JPY</option>
-          <option value = "PGU">GEN</option>
-
+          {% for a, b in bb_api_data.items() %}
+            {% for d, v in b.items() %}
+               {% for f, c in v.items() %}
+                   <option value="0">{{ f }}</option>
+               {% endfor %}
+            {% endfor %}
+          {% endfor %}
         </select>
-
-        <input type="text" class="form-control" name="cash_out" placeholder="999.99">
-
     </div>
 
     <button formmethod="post" type="submit" class="btn btn-primary">Convert</button>
@@ -63,6 +79,11 @@
     <p>
         TOTAL: {{ total }}
     </p>
+
+
+    {% for a, b in bb_api_data.items() %}
+        <p>{{ b['info']['name'] }}</p>
+    {% endfor %}
 
 
 </body>
