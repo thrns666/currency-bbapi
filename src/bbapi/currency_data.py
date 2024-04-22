@@ -45,9 +45,11 @@ def separate_filial(data_json: list, flag: bool = True) -> dict:
         for name, cost in data.items():
             if name != 'filial_id' and flag:
                 if name.split('_')[-1] == 'in':
-                    cur_in[f'{name}'] = cost
+                    if cost != 0:
+                        cur_in[f'{name}'] = cost
                 elif name.split('_')[-1] == 'out':
-                    cur_out[f'{name}'] = cost
+                    if cost != 0:
+                        cur_out[f'{name}'] = cost
             elif name == 'filial_id':
                 flag = False
             elif not flag:
@@ -61,6 +63,16 @@ def separate_filial(data_json: list, flag: bool = True) -> dict:
 
     return result
 
+
+def city_list(json: dict) -> list:
+    cities = list()
+    for i in json:
+        city = i['name']
+        print(city)
+        cities.append(city)
+    return cities
+
+city_list(json_data)
 
 async def get_currency() -> separate_filial:
     # BelaBank api url here

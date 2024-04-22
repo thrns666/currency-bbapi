@@ -11,13 +11,31 @@ templates = Jinja2Templates(directory='static/templates')
 
 @main_router.get('/')
 async def get_root(request: Request):
-    return {'msg': 'im here'}
+    currency_data_json = separate_filial(json_data)
+
+    city_list = {}
+    return templates.TemplateResponse(
+        request=request, name='1.html', context={}, status_code=200
+    )
 
 
 @main_router.get('/index')
 async def index(request: Request):
     # currency_data_json = get_currency()
     currency_data_json = separate_filial(json_data)
+
+    # return templates.TemplateResponse(
+    #     request=request,
+    #     name='index.html',
+    #     context={
+    #         'cities': currency_data_json[''],
+    #         'currency_in': currency_data_json['in'],
+    #         'currency_out': currency_data_json['out'],
+    #         'info': currency_data_json['info']
+    #     },
+    #     status_code=200
+    # )
+
     return templates.TemplateResponse(
         request=request, name='index.html', context={'bb_api_data': currency_data_json}, status_code=200
     )
