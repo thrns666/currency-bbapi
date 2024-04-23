@@ -13,12 +13,11 @@
 
     <form>
         <select name="city_name" id="ed">
-            {% for A in CITY_LIST %}
-            <option value="Орша"> Орша </option>
-            <option value="Малорита"> Малорита </option>
+            {% for i in CITY_LIST %}
+            <option value="{{ i }}">{{ i }}</option>
             {% endfor %}
         </select>
-        <button formmethod="get" type="submit" class="btn btn-primary">GO</button>
+        <button formmethod="post" type="submit" class="btn btn-primary">GO</button>
     </form>
     </body>
 </html>

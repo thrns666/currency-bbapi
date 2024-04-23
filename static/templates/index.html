@@ -23,20 +23,10 @@
 <!--<div class="dropdown-menu">-->
   <form class="px-4 py-3">
     <div class="mb-3">
-      <label for="cities">Choose city of bank office:</label>
-
-        <select name="city" id="city">
-            {% for a, b in bb_api_data.items() %}
-            <option value="1">{{ b['info']['name'] }}</option>
-            {% endfor %}
-
-        </select>
-    </div>
-    <div class="mb-3">
       <label for="offices">Choose bank office:</label>
 
         <select name="filial_id" id="id">
-            {% for a, b in bb_api_data.items() %}
+            {% for a, b in DATA.items() %}
             <option value="1">{{ b['info']['filials_text'] }}</option>
             {% endfor %}
 
@@ -47,13 +37,14 @@
         <p></p>
       <label for="currencies">Choose a currency:</label>
         <select name="currency_in" id="in-currency">
-          {% for a, b in bb_api_data.items() %}
-            {% for d, v in b.items() %}
-               {% for f, c in v.items() %}
-                   <option value="0">{{ f }}</option>
-               {% endfor %}
+            {% for a, b in DATA.items()%}
+                {% for x, c in b.items() %}
+                    {% for f, v in c.items() %}
+                    <option value="f">{{ f }}</option>
+                    {% endfor %}
+                {% endfor %}
             {% endfor %}
-          {% endfor %}
+
         </select>
 
         <input type="text" class="form-control" name="cash_in" placeholder="999.99">
@@ -64,7 +55,7 @@
         <p></p>
       <label for="currencies">Choose a currency:</label>
         <select name="currency_out" id="to-currency">
-          {% for a, b in bb_api_data.items() %}
+          {% for a, b in DATA.items() %}
                 {% for d, v in b.items() %}
                    {% for f, c in v.items() %}
                        <option value="0">{{ f }}</option>
@@ -82,7 +73,7 @@
     </p>
 
 
-    {% for a, b in bb_api_data.items() %}
+    {% for a, b in DATA.items() %}
         <p>{{ b['info']['name'] }}</p>
     {% endfor %}
 

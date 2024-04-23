@@ -2,7 +2,7 @@ from fastapi import APIRouter, Form
 from starlette.requests import Request
 from fastapi.templating import Jinja2Templates
 from typing_extensions import Annotated
-from src.bbapi.currency_data import get_currency, json_data, separate_filial
+from src.bbapi.currency_data import get_currency, json_data, separate_filial, city_list
 
 main_router = APIRouter()
 
@@ -10,12 +10,27 @@ templates = Jinja2Templates(directory='static/templates')
 
 
 @main_router.get('/')
-async def get_root(request: Request):
-    currency_data_json = separate_filial(json_data)
+async def get_rot(request: Request):
+    cities = city_list(json_data)
 
-    city_list = {}
     return templates.TemplateResponse(
-        request=request, name='1.html', context={}, status_code=200
+        request=request, name='1.html', context={'CITY_LIST': cities}, status_code=200
+    )
+
+
+@main_router.post('/')
+async def get_root(request: Request, city_name: Annotated[str, Form()]):
+    res = list()
+    for i in json_data:
+        if city_name == i['name']:
+            res.append(i)
+
+    print('res', res)
+    tot = separate_filial(res)
+    print('tot', tot)
+
+    return templates.TemplateResponse(
+        request=request, name='index.html', context={'DATA': tot}, status_code=200
     )
 
 
@@ -44,13 +59,13 @@ async def index(request: Request):
 @main_router.post('/index')
 async def take_data(
         request: Request,
-        office: Annotated[str, Form()],
+
         currency_in: Annotated[str, Form()],
         currency_out: Annotated[str, Form()],
         cash_in: Annotated[str, Form()],
         cash_out: Annotated[str, Form()]
 ):
-    print(office, currency_in, currency_out, cash_in, cash_out)
+    print( currency_in, currency_out, cash_in, cash_out)
 
     sum = int(cash_in) + int(cash_out)
     print("total =", sum)
