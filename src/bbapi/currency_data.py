@@ -79,10 +79,11 @@ def separate_filial(data_json: list, flag: bool = True) -> dict:
                         cur_out[f'{name}'] = cost
             elif name == 'filial_id':
                 flag = False
+                service_info[name] = cost
             elif not flag:
                 service_info[name] = cost
 
-        result[data['filial_id'] + ': ' + data['name']] = {
+        result[data['filial_id']] = {
             'in': cur_in,
             'out': cur_out,
             'info': service_info

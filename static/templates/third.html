@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Main page</title>
+    <script src="https://kit.fontawesome.com/cb325c9c52.js" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,400&display=swap" rel="stylesheet">
+
+</head>
+<body>
+
+
+
+<p>EXCHANGE RATE</p>
+<!--<div class="dropdown-menu">-->
+  <form class="px-4 py-3">
+    <div class="mb-3">
+      <label for="exampleDropdownFormPassword1" class="form-label">From</label>
+        <p></p>
+      <label for="currencies">Choose a currency:</label>
+        <select name="currency_in" id="in-currency">
+            {% for a in BANK.in %}
+
+                    <option value="f">{{ a }}</option>
+
+            {% endfor %}
+
+        </select>
+
+        <input type="text" class="form-control" name="cash_in" placeholder="999.99">
+
+    </div>
+    <div class="mb-3">
+      <label for="exampleDropdownFormPassword1" class="form-label">To</label>
+        <p></p>
+      <label for="currencies">Choose a currency:</label>
+        <select name="currency_out" id="to-currency">
+          {% for a in BANK.out %}
+
+                       <option value="0">{{ a }}</option>
+
+          {% endfor %}
+        </select>
+    </div>
+
+    <button formmethod="post" type="submit" class="btn btn-primary">Convert</button>
+  </form>
+
+    <p>
+        TOTAL: {{ total }}
+    </p>
+
+
+    {% for a, b in BANK.items() %}
+        <p>{{ b }}</p>
+    {% endfor %}
+
+
+</body>
+</html>

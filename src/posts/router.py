@@ -9,12 +9,19 @@ main_router = APIRouter()
 templates = Jinja2Templates(directory='static/templates')
 
 
+@main_router.get('/filial_id/{bank_id}')
+async def get_filial(request: Request, bank_id: str):
+    r = separate_filial(json_data)
+    a = r[bank_id]
+    return templates.TemplateResponse(request=request, name='third.html', context={'BANK': a}, status_code=200)
+
+
 @main_router.get('/')
 async def get_rot(request: Request):
     cities = city_list(json_data)
 
     return templates.TemplateResponse(
-        request=request, name='1.html', context={'CITY_LIST': cities}, status_code=200
+        request=request, name='zero.html', context={'CITY_LIST': cities}, status_code=200
     )
 
 
@@ -25,12 +32,12 @@ async def get_root(request: Request, city_name: Annotated[str, Form()]):
         if city_name == i['name']:
             res.append(i)
 
-    print('res', res)
+    # print('res', res)
     tot = separate_filial(res)
-    print('tot', tot)
+    # print('tot', tot)
 
     return templates.TemplateResponse(
-        request=request, name='index.html', context={'DATA': tot}, status_code=200
+        request=request, name='second.html', context={'DATA': tot}, status_code=200
     )
 
 
@@ -56,6 +63,9 @@ async def index(request: Request):
     )
 
 
+
+
+
 @main_router.post('/index')
 async def take_data(
         request: Request,
@@ -65,10 +75,10 @@ async def take_data(
         cash_in: Annotated[str, Form()],
         cash_out: Annotated[str, Form()]
 ):
-    print( currency_in, currency_out, cash_in, cash_out)
+    # print( currency_in, currency_out, cash_in, cash_out)
 
     sum = int(cash_in) + int(cash_out)
-    print("total =", sum)
+    # print("total =", sum)
     context = {
         'total': sum
     }
