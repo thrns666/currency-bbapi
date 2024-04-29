@@ -9,8 +9,12 @@ main_router = APIRouter()
 templates = Jinja2Templates(directory='static/templates')
 
 
+# Change name var a & r
 @main_router.get('/filial_id/{bank_id}')
-async def get_filial(request: Request, bank_id: str):
+async def get_filial(
+        request: Request,
+        bank_id: str,
+):
     r = separate_filial(json_data)
     a = r[bank_id]
     return templates.TemplateResponse(request=request, name='third.html', context={'BANK': a}, status_code=200)
@@ -30,13 +34,17 @@ async def post_filial(
     r = separate_filial(json_data)
     a = r[bank_id]
 
-    if cr_in != 'BYN_in':
-        tot = float(cash_in) * float(a['in'][cr_in]) / float(a['out'][cr_out])
-    else:
+    print(cr_in, cr_out, cash_in)
+
+    if cr_out == 'BYN_out':
+        tot = float(cash_in) * float(a['in'][cr_in])
+    elif cr_in == 'BYN_in':
         tot = float(cash_in) / float(a['out'][cr_out])
+    else:
+        tot = float(cash_in) * float(a['in'][cr_in]) / float(a['out'][cr_out])
 
     context = {
-        'TOTAL': tot,
+        'TOTAL': round(tot, 2),
         'BANK': a
                }
 
@@ -61,55 +69,8 @@ async def get_root(request: Request, city_name: Annotated[str, Form()]):
         if city_name == i['name']:
             res.append(i)
 
-    # print('res', res)
     tot = separate_filial(res)
-    # print('tot', tot)
 
     return templates.TemplateResponse(
         request=request, name='second.html', context={'DATA': tot}, status_code=200
     )
-
-
-@main_router.get('/index')
-async def index(request: Request):
-    # currency_data_json = get_currency()
-    currency_data_json = separate_filial(json_data)
-
-    # return templates.TemplateResponse(
-    #     request=request,
-    #     name='index.html',
-    #     context={
-    #         'cities': currency_data_json[''],
-    #         'currency_in': currency_data_json['in'],
-    #         'currency_out': currency_data_json['out'],
-    #         'info': currency_data_json['info']
-    #     },
-    #     status_code=200
-    # )
-
-    return templates.TemplateResponse(
-        request=request, name='index.html', context={'bb_api_data': currency_data_json}, status_code=200
-    )
-
-
-
-
-
-@main_router.post('/index')
-async def take_data(
-        request: Request,
-
-        currency_in: Annotated[str, Form()],
-        currency_out: Annotated[str, Form()],
-        cash_in: Annotated[str, Form()],
-        cash_out: Annotated[str, Form()]
-):
-    # print( currency_in, currency_out, cash_in, cash_out)
-
-    sum = int(cash_in) + int(cash_out)
-    # print("total =", sum)
-    context = {
-        'total': sum
-    }
-
-    return templates.TemplateResponse(request=request, name='index.html', context=context, status_code=200)

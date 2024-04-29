@@ -27,7 +27,7 @@ json_data = [
         "CNY_RUB_out": "0.0000", "CZK_in": "0.0000", "CZK_out": "0.0000", "NOK_in": "0.0000", "NOK_out": "0.0000",
         "filial_id": "1851", "sap_id": "50000081",
         "info_worktime": "Пн |Вт 10 00 19 00 |Ср 10 00 19 00 |Чт 10 00 19 00 |Пт 10 00 19 00 |Сб 10 00 16 00 |Вс |",
-        "street_type": "бул.", "street": "Центральная", "filials_text": "Отделение 110\/122", "home_number": "33",
+        "street_type": "б-ул.", "street": "Центральная", "filials_text": "Отделение 110\/122", "home_number": "33",
         "name": "Пинск", "name_type": "г."
         },
     {
@@ -73,9 +73,17 @@ def separate_filial(data_json: list, flag: bool = True) -> dict:
             if name != 'filial_id' and flag:
                 if name.split('_')[-1] == 'in':
                     if float(cost) != 0:
+                        if name == 'RUB_in':
+                            cost = str(float(cost) / 100)
+                        if name == 'CNY_in':
+                            cost = str(float(cost) / 10)
                         cur_in[f'{name}'] = cost
                 elif name.split('_')[-1] == 'out':
                     if float(cost) != 0:
+                        if name == 'RUB_out':
+                            cost = str(float(cost) / 100)
+                        if name == 'CNY_out':
+                            cost = str(float(cost) / 10)
                         cur_out[f'{name}'] = cost
             elif name == 'filial_id':
                 flag = False
