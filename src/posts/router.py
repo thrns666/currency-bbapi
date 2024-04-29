@@ -16,6 +16,35 @@ async def get_filial(request: Request, bank_id: str):
     return templates.TemplateResponse(request=request, name='third.html', context={'BANK': a}, status_code=200)
 
 
+@main_router.post('/filial_id/{bank_id}')
+async def post_filial(
+        request: Request,
+        bank_id: str,
+        currency_in: Annotated[str, Form()],
+        currency_out: Annotated[str, Form()],
+        cash_in: Annotated[str, Form()]
+):
+    cr_in = currency_in
+    cr_out = currency_out
+
+    r = separate_filial(json_data)
+    a = r[bank_id]
+
+    if cr_in != 'BYN_in':
+        tot = float(cash_in) * float(a['in'][cr_in]) / float(a['out'][cr_out])
+    else:
+        tot = float(cash_in) / float(a['out'][cr_out])
+
+    context = {
+        'TOTAL': tot,
+        'BANK': a
+               }
+
+    print(bank_id, cr_out, cr_in, cash_in, f'total-{tot}')
+
+    return templates.TemplateResponse(request=request, name='third.html', context=context, status_code=200)
+
+
 @main_router.get('/')
 async def get_rot(request: Request):
     cities = city_list(json_data)
