@@ -104,14 +104,12 @@ def city_list(json: dict) -> list:
     cities = list()
     for i in json:
         city = i['name']
-        if not city in cities:
+        if city not in cities:
             cities.append(city)
     return cities
 
-city_list(json_data)
 
-
-async def get_currency() -> separate_filial:
+async def get_currency() -> list:
     # BelaBank api url here
     url = ''  # 'https://belarusbank.by/api/kursExchange'
 
@@ -119,3 +117,5 @@ async def get_currency() -> separate_filial:
         response = await session.get(url=url)
 
     return response.json()
+
+bb_api_json_data = ge
