@@ -1,6 +1,18 @@
 import aiohttp
 
 
+# async def get_currency() -> list:
+#     # BelaBank api url here
+#     url = 'https://belarusbank.by/api/kursExchange'
+#
+#     with aiohttp.ClientSession() as session:
+#         response = await session.get(url=url)
+#
+#     return response.json()
+#
+# bb_api_json_data = get_currency()
+
+
 json_data = [
     {
         "USD_in": "3.2650", "USD_out": "3.3050", "EUR_in": "3.4600", "EUR_out": "3.5300", "RUB_in": "3.4300",
@@ -109,13 +121,4 @@ def city_list(json: dict) -> list:
     return cities
 
 
-async def get_currency() -> list:
-    # BelaBank api url here
-    url = ''  # 'https://belarusbank.by/api/kursExchange'
 
-    with aiohttp.ClientSession() as session:
-        response = await session.get(url=url)
-
-    return response.json()
-
-bb_api_json_data = ge
