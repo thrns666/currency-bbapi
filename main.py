@@ -1,15 +1,13 @@
 import asyncio
-
 import uvicorn
 from fastapi import FastAPI
 from starlette.staticfiles import StaticFiles
-
 # from src.bbapi.currency_data import get_currency
 from src.currency.router import main_router
 
 app = FastAPI()
 
-app.mount('/static', StaticFiles(directory='static/templates'), name='static')
+app.mount('/static', StaticFiles(directory='static'), name='static')
 
 app.include_router(main_router)
 

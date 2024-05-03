@@ -16,53 +16,63 @@
 
 </head>
 <body>
-    <div class="container-fluid">
+    <div class="container text-center">
+        <div class="row">
+            <div class="col align-self-center">
+                <p><a href="{{ url_for('get_index') }}">EXCHANGE RATE</a></p>
+                  <form class="px-4 py-3">
+                    <div class="mb-3">
+                      <label for="exampleDropdownFormPassword1" class="form-label">From</label>
+                        <p></p>
+                      <label for="currencies">Choose a currency:</label>
+                        <select name="currency_in" id="in-currency">
+                            <option value="BYN_in">BYN</option>
+                            {% for a in BANK.in %}
 
-        <p><a href="{{ url_for('get_index') }}">EXCHANGE RATE</a></p>
-          <form class="px-4 py-3">
-            <div class="mb-3">
-              <label for="exampleDropdownFormPassword1" class="form-label">From</label>
-                <p></p>
-              <label for="currencies">Choose a currency:</label>
-                <select name="currency_in" id="in-currency">
-                    <option value="BYN_in">BYN</option>
-                    {% for a in BANK.in %}
+                                    <option value="{{ a }}">{{ a }}</option>
 
-                            <option value="{{ a }}">{{ a }}</option>
+                            {% endfor %}
 
-                    {% endfor %}
+                        </select>
+                        <p></p>
+                        <div class="row justify-content-around">
+                            <div class="col-4">
+                                <input type="text" class="form-control" name="cash_in" placeholder="0.00 BYN">
+                            </div>
+                        </div>
 
-                </select>
+                    </div>
+                    <div class="mb-3">
+                      <label for="exampleDropdownFormPassword1" class="form-label">To</label>
+                        <p></p>
+                      <label for="currencies">Choose a currency:</label>
+                        <select name="currency_out" id="to-currency">
+                            <option value="BYN_out">BYN</option>
+                            {% for a in BANK.out %}
+                                <option value="{{ a }}">{{ a }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
 
-                <input type="text" class="form-control" name="cash_in" placeholder="0.00 BYN">
+                    <button formmethod="post" type="submit" class="btn btn-primary">Convert</button>
+                  </form>
 
+                  <p>TOTAL: {{ TOTAL }} {{ TOTAL_CURRENCY }}</p>
+                  <div class="row justify-content-around">
+                    <div class="col-4">
+                        {% for a, b in BANK.items() %}
+                          {% if a == 'info' %}
+                            <ul>
+                                <li>Office: {{ b['filials_text'] }}</li>
+                                <li>Worktime: {{ b['info_worktime'] }}</li>
+                                <li>Address: {{ b['name_type'] }} {{ b['name'] }}, {{ b['street_type'] }} {{ b['street'] }} {{ b['home_number'] }}</li>
+                            </ul>
+                          {% endif %}
+                        {% endfor %}
+                    </div>
+                  </div>
             </div>
-            <div class="mb-3">
-              <label for="exampleDropdownFormPassword1" class="form-label">To</label>
-                <p></p>
-              <label for="currencies">Choose a currency:</label>
-                <select name="currency_out" id="to-currency">
-                    <option value="BYN_out">BYN</option>
-                    {% for a in BANK.out %}
-                        <option value="{{ a }}">{{ a }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-
-            <button formmethod="post" type="submit" class="btn btn-primary">Convert</button>
-          </form>
-
-          <p>TOTAL: {{ TOTAL }} {{ TOTAL_CURRENCY }}</p>
-
-          {% for a, b in BANK.items() %}
-              {% if a == 'info' %}
-                <ul>
-                    <li>Office: {{ b['filials_text'] }}</li>
-                    <li>Worktime: {{ b['info_worktime'] }}</li>
-                    <li>Address: {{ b['name_type'] }} {{ b['name'] }}, {{ b['street_type'] }} {{ b['street'] }} {{ b['home_number'] }}</li>
-                </ul>
-              {% endif %}
-          {% endfor %}
+        </div>
     </div>
 </body>
 </html>

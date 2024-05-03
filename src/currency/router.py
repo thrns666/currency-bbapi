@@ -3,7 +3,7 @@ from starlette.requests import Request
 from fastapi.templating import Jinja2Templates
 from typing_extensions import Annotated
 from src.bbapi.currency_data import json_data, separate_filial, city_list
-from .o import bb_api
+# from .o import bb_api
 
 main_router = APIRouter()
 
@@ -16,7 +16,7 @@ async def get_filial(
         request: Request,
         bank_id: str,
 ):
-    r = separate_filial(bb_api)
+    r = separate_filial(json_data)
     a = r[bank_id]
     return templates.TemplateResponse(request=request, name='third.html', context={'BANK': a}, status_code=200)
 
@@ -29,7 +29,7 @@ async def post_filial(
         currency_out: Annotated[str, Form()],
         cash_in: Annotated[str, Form()]
 ):
-    r = separate_filial(bb_api)
+    r = separate_filial(json_data)
     a = r[bank_id]
 
     if currency_out == 'BYN_out':
@@ -52,7 +52,7 @@ async def post_filial(
 
 @main_router.get('/')
 async def get_index(request: Request):
-    cities = city_list(bb_api)
+    cities = city_list(json_data)
 
     return templates.TemplateResponse(
         request=request, name='zero.html', context={'CITY_LIST': cities}, status_code=200
@@ -62,7 +62,7 @@ async def get_index(request: Request):
 @main_router.post('/')
 async def get_root(request: Request, city_name: Annotated[str, Form()]):
     res = list()
-    for i in bb_api:
+    for i in json_data:
         if city_name == i['name']:
             res.append(i)
 
